@@ -2,9 +2,10 @@ package br.com.anunciada.stewards_api.application.service;
 
 import br.com.anunciada.stewards_api.application.ports.out.CategoryPersistencePort;
 import br.com.anunciada.stewards_api.application.usecase.category.ListCategoriesUseCase;
-import br.com.anunciada.stewards_api.domain.model.Category;
+import br.com.anunciada.stewards_api.infra.controller.response.ListCategoryResponse;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class ListCategoriesService implements ListCategoriesUseCase {
@@ -16,7 +17,7 @@ public class ListCategoriesService implements ListCategoriesUseCase {
     }
 
     @Override
-    public List<Category> execute() {
-        return categoryPersistencePort.findAll();
+    public List<ListCategoryResponse> execute(UUID groupId) {
+        return categoryPersistencePort.findAll(groupId);
     }
 }

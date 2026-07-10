@@ -5,15 +5,18 @@ import br.com.anunciada.stewards_api.application.usecase.category.CreateCategory
 import br.com.anunciada.stewards_api.application.usecase.category.ListCategoriesUseCase;
 import br.com.anunciada.stewards_api.domain.model.Category;
 import br.com.anunciada.stewards_api.infra.controller.request.CreateCategoryRequest;
+import br.com.anunciada.stewards_api.infra.controller.response.ListCategoryResponse;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/categories")
@@ -39,10 +42,10 @@ public class CategoryController {
             );
         }
 
-        @GetMapping
+        @GetMapping("/{groupId}")
         @ResponseStatus(HttpStatus.OK)
-        public List<Category> listCategory() {
-            return listCategoriesUseCase.execute();
+        public List<ListCategoryResponse> listCategoryByGroup(@PathVariable UUID groupId) {
+            return listCategoriesUseCase.execute(groupId);
         }
 
 }
