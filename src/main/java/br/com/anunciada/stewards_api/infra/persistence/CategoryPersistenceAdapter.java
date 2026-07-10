@@ -18,6 +18,9 @@ public class CategoryPersistenceAdapter implements CategoryPersistencePort {
 
     @Override
     public void save(Category category) {
+        if (hasCategoryByNameAndGroupId(category)) {
+            return;
+        }
         repository.save(
                 new CategoryEntity(
                         category.getId(),
@@ -33,10 +36,37 @@ public class CategoryPersistenceAdapter implements CategoryPersistencePort {
                 .stream()
                 .map(entity ->
                         new ListCategoryResponse(
+                                entity.getId(),
                                 entity.getName(),
                                 entity.getGroupId()
                         )
                 )
                 .toList();
+    }
+
+    @Override
+    public void update(Category category) {
+        if (!hasCategory(category)) {
+            throw new IllegalArgumentException();
+        }
+        repository.save(
+                new CategoryEntity(
+                        category.getId(),
+                        category.getName(),
+                        category.getGroupId()
+                )
+        );
+    }
+
+    private boolean hasCategoryByNameAndGroupId(Category category) {
+        return repository.findByNameAndGroupId(
+                        category.getName(),
+                        category.getGroupId())
+                .isPresent();
+    }
+
+    private boolean hasCategory(Category category) {
+        return repository.findById(category.getId())
+                .isPresent();
     }
 }

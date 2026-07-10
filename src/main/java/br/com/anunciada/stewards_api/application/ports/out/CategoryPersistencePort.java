@@ -11,4 +11,6 @@ public interface CategoryPersistencePort {
 
     List<ListCategoryResponse> findAll(UUID groupId);
 
+    void update(Category category);
+
 }
