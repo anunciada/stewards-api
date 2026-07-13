@@ -1,4 +1,4 @@
-package br.com.anunciada.stewards_api.infra.persistence;
+package br.com.anunciada.stewards_api.infra.persistence.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

@@ -1,8 +1,10 @@
-package br.com.anunciada.stewards_api.infra.persistence;
+package br.com.anunciada.stewards_api.infra.persistence.adapter;
 
 import br.com.anunciada.stewards_api.application.ports.out.CategoryPersistencePort;
 import br.com.anunciada.stewards_api.domain.model.Category;
 import br.com.anunciada.stewards_api.infra.controller.response.ListCategoryResponse;
+import br.com.anunciada.stewards_api.infra.persistence.entity.CategoryEntity;
+import br.com.anunciada.stewards_api.infra.persistence.repository.CategoryRepository;
 import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.UUID;
