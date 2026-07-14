@@ -20,12 +20,17 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**")
-                        .permitAll()
                         .anyRequest()
-                        .authenticated())
+                        .permitAll()
+                )
                 .build();
     }
+
+//    .authorizeHttpRequests(auth -> auth
+//            .requestMatchers("/auth/**")
+//            .permitAll()
+//                        .anyRequest()
+//                        .authenticated())
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -34,6 +39,7 @@ public class SecurityConfig {
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
+
         return configuration.getAuthenticationManager();
     }
 }

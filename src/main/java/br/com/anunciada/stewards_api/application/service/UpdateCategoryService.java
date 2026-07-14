@@ -20,8 +20,8 @@ public class UpdateCategoryService implements UpdateCategoryUseCase {
     public void execute(UUID id, CreateCategoryCommand command) {
         Category category = new Category(
                 id,
-                command.name(),
-                command.groupId());
+                command.groupId(),
+                command.name());
 
         categoryPersistencePort.update(category);
     }

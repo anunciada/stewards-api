@@ -20,9 +20,8 @@ public class CreateCategoryService implements CreateCategoryUseCase {
     public void execute(CreateCategoryCommand command) {
         Category category = new Category(
                 UUID.randomUUID(),
-                command.name(),
-                command.groupId());
-
+                command.groupId(),
+                command.name());
         categoryPersistencePort.save(category);
     }
 }
