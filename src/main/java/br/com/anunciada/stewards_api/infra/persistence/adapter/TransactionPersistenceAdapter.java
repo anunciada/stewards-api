@@ -13,15 +13,24 @@ import br.com.anunciada.stewards_api.infra.persistence.repository.TransactionRep
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 @Component
 public class TransactionPersistenceAdapter implements TransactionPersistencePort {
 
     private final TransactionRepository repository;
+    private final CategoryRepository categoryRepository;
 
-    public TransactionPersistenceAdapter(TransactionRepository repository) {
+    public TransactionPersistenceAdapter(TransactionRepository repository,
+                                         CategoryRepository categoryRepository) {
         this.repository = repository;
+        this.categoryRepository = categoryRepository;
     }
 
     @Override
@@ -30,7 +39,7 @@ public class TransactionPersistenceAdapter implements TransactionPersistencePort
                 new TransactionEntity(
                         transaction.getId(),
                         transaction.getGroupId(),
-                        transaction.getCategoryId(),
+                        this.categoryRepository.findById(transaction.getCategoryId()).orElseThrow(),
                         transaction.getDescription(),
                         transaction.getType(),
                         transaction.getPaymentMethod(),
@@ -41,20 +50,19 @@ public class TransactionPersistenceAdapter implements TransactionPersistencePort
     }
 
     @Override
-    public List<ListTransactionResponse> findAll() {
-        return repository.findAll()
-            .stream()
-            .map(transaction ->
-                    new ListTransactionResponse(
-                            transaction.getId(),
-                            transaction.getGroupId(),
-                            transaction.getCategoryId(),
-                            transaction.getDescription(),
-                            transaction.getType(),
-                            transaction.getPaymentMethod(),
-                            transaction.getValue(),
-                            transaction.getTransactionDate()))
-            .toList();
+    public List<ListTransactionResponse> findAll(UUID groupId) {
+        return repository.findAllByGroupId(groupId)
+                .stream()
+                .map(transaction -> new ListTransactionResponse(
+                        transaction.getId(),
+                        transaction.getGroupId(),
+                        transaction.getCategory().getName(),
+                        transaction.getDescription(),
+                        transaction.getType(),
+                        transaction.getPaymentMethod(),
+                        transaction.getValue(),
+                        transaction.getTransactionDate()
+                ))
+                .toList();
     }
-
 }

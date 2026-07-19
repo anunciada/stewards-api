@@ -6,6 +6,7 @@ import br.com.anunciada.stewards_api.infra.controller.response.ListTransactionRe
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class ListTransactionService implements ListTransactionsUseCase {
@@ -17,7 +18,7 @@ public class ListTransactionService implements ListTransactionsUseCase {
     }
 
     @Override
-    public List<ListTransactionResponse> execute() {
-        return transactionPersistencePort.findAll();
+    public List<ListTransactionResponse> execute(UUID groupId) {
+        return transactionPersistencePort.findAll(groupId);
     }
 }

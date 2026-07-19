@@ -6,6 +6,7 @@ import br.com.anunciada.stewards_api.domain.model.Transaction;
 import br.com.anunciada.stewards_api.infra.controller.request.CreateTransactionRequest;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Service
@@ -21,13 +22,13 @@ public class CreateTransactionService implements CreateTransactionUseCase {
     public void execute(CreateTransactionRequest request) {
         Transaction transaction = new Transaction(
                         UUID.randomUUID(),
-                        request.groupId(),
-                        request.categoryId(),
+                        UUID.fromString(request.groupId()),
+                        UUID.fromString(request.categoryId()),
                         request.description(),
                         request.type(),
                         request.paymentMethod(),
                         request.value(),
-                        request.transactionDate()
+                        LocalDate.parse(request.transactionDate())
                 );
         transactionPersistencePort.save(transaction);
     }

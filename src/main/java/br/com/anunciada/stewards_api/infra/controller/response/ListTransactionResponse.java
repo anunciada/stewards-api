@@ -7,7 +7,7 @@ import java.util.UUID;
 public record ListTransactionResponse(
         UUID id,
         UUID groupId,
-        UUID categoryId,
+        String categoryName,
         String description,
         String type,
         String paymentMethod,
